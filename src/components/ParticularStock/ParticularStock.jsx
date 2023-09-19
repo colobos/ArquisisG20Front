@@ -3,6 +3,8 @@ import axios from 'axios';
 import "./ParticularField.css";
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from "@auth0/auth0-react"; 
+import config from '../../configroutes'
 
 function ParticularStock() {
   const params = useParams();
@@ -13,6 +15,7 @@ function ParticularStock() {
   const [userPageInput, setUserPageInput] = useState(currentPage);
   const [ShortName, setShortName] = useState("");
   const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
 
 
   const myfields = () => {
@@ -25,9 +28,18 @@ function ParticularStock() {
 
   const getInfo = async () => {
     try {
-      const url = `http://localhost:3000/stocks/${event_symbol}?page=${userPageInput}&size=${pageSize}`; //RUTA CORREGIR
+      const token = await getAccessTokenSilently(); 
+      console.log("Token del usuario:", token);
+
+      const configaxios = {
+          headers: {
+              "Authorization": `${token}`, 
+          }
+      };
+      const url = `${config.route}stocks/${event_symbol}?page=${userPageInput}&size=${pageSize}`; 
+      //const url = `http://localhost:3000/stocks/${event_symbol}?page=${userPageInput}&size=${pageSize}`; //RUTA CORREGIR
       console.log(url);
-      const response = await axios.get(url);
+      const response = await axios.get(url, configaxios);
       console.log(response);
       setStocks(response.data);
       setShortName(response.data[0].shortName)

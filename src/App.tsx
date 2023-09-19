@@ -36,8 +36,6 @@ function App() {
             <Route path={"/empresas/:symbol"} element={<ParticularStock />} />
 
             <Route path="*" element={<NotFoundpage />} />
-
-
           </Routes>
         </Container>
         <Footer />

@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import "./PlayerProfile.css";
+import { useAuth0 } from "@auth0/auth0-react"; 
+import config from '../../configroutes'
 
 function PlayerProfile() {
-
-
+    const { getAccessTokenSilently } = useAuth0();
     const [fields_shown, setStocks] = useState([])
 
     const getInfo = async () => {
         try {
-
-            const url = 'http://localhost:3000/purchase/perfildata'; //RUTA CORREGIR y agregar restricciones axios segun Auth0
+            const token = await getAccessTokenSilently(); 
+            console.log("Token del usuario:", token);
+    
+            const configaxios = {
+                headers: {
+                    "Authorization": `${token}`, 
+                }
+            };
+            const url = `${config.route}purchase/perfildata`; 
             console.log(url)
             const response = await axios.get(url)
             console.log(response)

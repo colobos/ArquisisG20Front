@@ -1,20 +1,37 @@
 import React, {useEffect, useState } from "react";
 import axios from 'axios';
 import "./SearchField.css"
+import { useAuth0 } from "@auth0/auth0-react"; 
+import config from '../../configroutes'
 
 
 function SearchStocks() {
-
+    const { getAccessTokenSilently } = useAuth0();
     const [fields_shown, setStocks] = useState([])
+
+    const {
+      user,
+      isAuthenticated,
+      loginWithRedirect,
+      logout,
+    } = useAuth0();
 
     const getInfo = async () => {
         try {
-
-            const url = 'http://localhost:3000/stocks'; //RUTA CORREGIR
-            console.log(url)
-            const response = await axios.get(url)
-            console.log(response)
-            setStocks(response.data)
+            const token = await getAccessTokenSilently(); 
+            console.log("Token del usuario:", token);
+    
+            const configaxios = {
+                headers: {
+                    "Authorization": `${token}`, 
+                }
+            };
+    
+            const url = `${config.route}stocks`; 
+            console.log(url);
+            const response = await axios.get(url, configaxios);
+            console.log(response);
+            setStocks(response.data);
         } catch (error) {
             console.log(error, "hay error");
         }
