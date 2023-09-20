@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import "./ParticularField.css";
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react"; 
 import config from '../../configroutes'
 
@@ -16,14 +16,21 @@ function ParticularStock() {
   const [ShortName, setShortName] = useState("");
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
+  const location = useLocation();
+  
+  const params_symbol = location.state.params;
 
+
+  const wantToBuy = (params) => {
+    navigate("/comprar", {
+      state: {
+        params
+      }
+    })
+  }
 
   const myfields = () => {
     navigate("/empresas_disponibles")
-  }
-
-  const wantToBuy = () => {
-    navigate("/comprar") //HACER
   }
 
   const getInfo = async () => {
@@ -36,8 +43,7 @@ function ParticularStock() {
               "Authorization": `${token}`, 
           }
       };
-      const url = `${config.route}stocks/${event_symbol}?page=${userPageInput}&size=${pageSize}`; 
-      //const url = `http://localhost:3000/stocks/${event_symbol}?page=${userPageInput}&size=${pageSize}`; //RUTA CORREGIR
+      const url = `${config.route}stocks/${params_symbol}?page=${userPageInput}&size=${pageSize}`; 
       console.log(url);
       const response = await axios.get(url, configaxios);
       console.log(response);
@@ -70,7 +76,7 @@ function ParticularStock() {
       </div>
 
       <div className="DivTitleBack">
-                <button type="" className='botonsubmit' onClick={wantToBuy}>Comprar Acciones</button>
+                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol)}>Comprar Acciones</button>
         </div>
 
       <div className="pageInput">

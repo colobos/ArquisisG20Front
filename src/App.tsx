@@ -11,6 +11,7 @@ import NotFoundpage from './viws/NotFound/NotFoundpage';
 
 import SearchStocks from './components/SearchStocks/SearchStocks';
 import ParticularStock from './components/ParticularStock/ParticularStock';
+import BuyAction from './components/BuyAction/BuyAction';
 
 //styles
 import './App.css';
@@ -33,7 +34,9 @@ function App() {
 
             <Route path={'/empresas_disponibles'} element={<SearchStocks />} />
 
-            <Route path={"/empresas/:symbol"} element={<ParticularStock />} />
+            <Route path={"/empresas"} element={<ParticularStock />} />
+
+            <Route path={"/comprar"} element={<BuyAction />} />
 
             <Route path="*" element={<NotFoundpage />} />
           </Routes>

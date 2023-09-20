@@ -8,16 +8,29 @@ function PlayerProfile() {
     const { getAccessTokenSilently } = useAuth0();
     const [fields_shown, setStocks] = useState([])
 
+
+    const {
+      user,
+      isAuthenticated,
+      loginWithRedirect,
+      logout,
+    } = useAuth0();
+
+
     const getInfo = async () => {
         try {
             const token = await getAccessTokenSilently(); 
             console.log("Token del usuario:", token);
-    
+
+            console.log("USER USER");
+            console.log(user);
+
             const configaxios = {
                 headers: {
                     "Authorization": `${token}`, 
                 }
             };
+            // Falta enviale el id respectivo
             const url = `${config.route}purchase/perfildata`; 
             console.log(url)
             const response = await axios.get(url)
@@ -44,7 +57,7 @@ function PlayerProfile() {
                 <p className="labelspecific">Empresa: {r.shortName}</p>
                 <p className="labelspecific">Simbolo: {r.symbol}</p>
                 <p className="labelspecific">Cantidad Comprada: {r.amount}</p>
-                <a href={`grafico/${r.symbol}`}><button className="botonsubmit2">Ver Gráfico Precios</button></a>
+                <p className="labelspace"></p>
               </div>
             ))}
           </div>
@@ -53,6 +66,7 @@ function PlayerProfile() {
 }
 
 export default PlayerProfile;
+//<a href={`grafico/${r.symbol}`}><button className="botonsubmit2">Ver Gráfico Precios</button></a>
 
 
 

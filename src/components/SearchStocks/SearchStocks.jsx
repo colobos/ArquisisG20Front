@@ -3,18 +3,21 @@ import axios from 'axios';
 import "./SearchField.css"
 import { useAuth0 } from "@auth0/auth0-react"; 
 import config from '../../configroutes'
+import { useNavigate } from 'react-router-dom';
 
 
 function SearchStocks() {
     const { getAccessTokenSilently } = useAuth0();
     const [fields_shown, setStocks] = useState([])
-
-    const {
-      user,
-      isAuthenticated,
-      loginWithRedirect,
-      logout,
-    } = useAuth0();
+    const navigate = useNavigate();
+    
+    const myfields = (params) => {
+      navigate("/empresas", {
+        state: {
+          params
+        }
+      })
+    }
 
     const getInfo = async () => {
         try {
@@ -53,7 +56,7 @@ function SearchStocks() {
                 <p className="labelspecific">Empresa: {r.shortName}</p>
                 <p className="labelspecific">Simbolo: {r.symbol}</p>
                 <p className="labelspecific">Ultimo precio: {r.price}</p>
-                <a href={`empresas/${r.symbol}`}><button className="botonsubmit2">Ver Detalles</button></a>
+                <button className='botonsubmit2' onClick={()=>myfields(r.symbol)}>Ver Detalles</button>
               </div>
             ))}
           </div>
@@ -62,3 +65,4 @@ function SearchStocks() {
 }
 
 export default SearchStocks;
+//<a href={`empresas/${r.symbol}`}><button className="botonsubmit2">Ver Detalles</button></a>
