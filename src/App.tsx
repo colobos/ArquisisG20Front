@@ -6,6 +6,13 @@ import Footer from "./components/Footer";
 import Home from './viws/Home';
 import Profile from './viws/Profile';
 
+import PlayerProfile from "../src/viws/ViewPlayer/PlayerProfile"
+import NotFoundpage from './viws/NotFound/NotFoundpage';
+
+import SearchStocks from './components/SearchStocks/SearchStocks';
+import ParticularStock from './components/ParticularStock/ParticularStock';
+import BuyAction from './components/BuyAction/BuyAction';
+
 //styles
 import './App.css';
 
@@ -22,6 +29,16 @@ function App() {
           <Routes>
             <Route path="/"  element={<Home />} />
             <Route path="/profile" element={<Profile />} />
+
+            <Route path="/perfil" element={<PlayerProfile />} />
+
+            <Route path={'/empresas_disponibles'} element={<SearchStocks />} />
+
+            <Route path={"/empresas"} element={<ParticularStock />} />
+
+            <Route path={"/comprar"} element={<BuyAction />} />
+
+            <Route path="*" element={<NotFoundpage />} />
           </Routes>
         </Container>
         <Footer />
