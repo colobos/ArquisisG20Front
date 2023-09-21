@@ -16,6 +16,7 @@ function BuyAction() {
   const location = useLocation();
   const params_symbol = location.state.symbol;
   const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
+  const params_shortName = location.state.shortName;
 
   const {
     user,
@@ -57,7 +58,8 @@ function BuyAction() {
             user_id: id,
             symbol: params_symbol,
             group_id: params_IdLastUpdateStock,
-            ...formData
+            ...formData,
+            shortName: params_shortName,
           };
           console.log(body)
 

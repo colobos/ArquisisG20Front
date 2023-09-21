@@ -20,13 +20,15 @@ function ParticularStock() {
   
   const params_symbol = location.state.symbol;
   const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
+  const params_shortName = location.state.shortName;
 
 
-  const wantToBuy = (symbol, IdLastUpdateStock) => {
+  const wantToBuy = (symbol, IdLastUpdateStock, shortName) => {
     navigate("/comprar", {
       state: {
         symbol,
         IdLastUpdateStock,
+        shortName,
       }
     })
   }
@@ -80,7 +82,7 @@ function ParticularStock() {
       </div>
 
       <div className="DivTitleBack">
-                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol, params_IdLastUpdateStock)}>Comprar Acciones</button>
+                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol, params_IdLastUpdateStock, params_shortName)}>Comprar Acciones</button>
         </div>
 
       <div className="pageInput">
