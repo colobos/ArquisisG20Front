@@ -8,20 +8,21 @@ import { useParams } from 'react-router-dom';
 
 
 function BuyAction() {
-    const { getAccessTokenSilently } = useAuth0();
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-      amount: ""
+  const { getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    amount: ""
   })
   const location = useLocation();
   const params_symbol = location.state.symbol;
   const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
   const params_shortName = location.state.shortName;
+  const [ipAddress, setIpAddress] = useState(null);
+  const [dateTime, setDateTime] = useState(null);
 
   const {
     user,
   } = useAuth0();
-
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -30,7 +31,7 @@ function BuyAction() {
         ...prevData,
         [name]: value,
     }));
-};
+  };
     
     const myfields = (params) => {
       navigate("/empresas", {
@@ -40,42 +41,60 @@ function BuyAction() {
       })
     }
 
-    const sentToApi = async (event) => {
-      event.preventDefault()
-      try {
-        const token = await getAccessTokenSilently(); 
-          const configaxios = {
-              headers: {
-                "Authorization": `${token}`, 
-              }
-          };
+  const sentToApi = async (event) => {
+    event.preventDefault()
+    try {
+      const token = await getAccessTokenSilently(); 
+        const configaxios = {
+            headers: {
+              "Authorization": `${token}`, 
+            }
+        };
 
-          console.log(params_symbol);
-          const stub = user.sub;
-          const parts = stub.split('|'); 
-          const id = parts[1]; 
-          const body = {
-            user_id: id,
-            symbol: params_symbol,
-            group_id: params_IdLastUpdateStock,
-            ...formData,
-            shortName: params_shortName,
-          };
-          console.log(body)
+        console.log(params_symbol);
+        const stub = user.sub;
+        const parts = stub.split('|'); 
+        const id = parts[1]; 
+        const body = {
+          user_id: id,
+          symbol: params_symbol,
+          group_id: params_IdLastUpdateStock,
+          ...formData,
+          shortName: params_shortName,
+          ip: ipAddress,
+          datetime: dateTime
+        };
+        console.log(body)
 
-          const url = `${config.route}/ruta` //TODO:
-          console.log(url)
-          const response = await axios.post(url, body, configaxios)
-          console.log(response.data, "response.data")
-          //navigate("/perfil_empresa"); // Ir al inicio
-      } catch (error) {
-          console.log(error, "hay error");
-      } 
-      
+        const url = `${config.route}purchase` //TODO:
+        console.log(url)
+        const response = await axios.post(url, body, configaxios)
+        console.log(response.data, "response.data")
+        //navigate("/perfil_empresa"); // Ir al inicio
+    } catch (error) {
+        console.log(error, "hay error");
+    } 
   }
 
-    useEffect(() => {
-    },[])
+  const getIP = async () => {
+    axios.get('https://httpbin.org/ip')
+      .then(response => {
+        // Extract the IP address from the response data
+        const ip = response.data.origin;
+        setIpAddress(ip);
+      })
+      .catch(error => {
+        console.error('Error fetching IP address:', error);
+      });
+  };
+
+
+  useEffect(() => {
+    getIP();
+    setDateTime(new Date().toLocaleString());
+    console.log("ipAddress:", ipAddress);
+    console.log("date", dateTime);
+  },[ipAddress, dateTime])
 
     return (
         <div className="DivPrincipalSearch3">
