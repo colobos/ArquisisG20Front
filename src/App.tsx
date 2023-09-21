@@ -11,6 +11,7 @@ import NotFoundpage from './viws/NotFound/NotFoundpage';
 
 import SearchStocks from './components/SearchStocks/SearchStocks';
 import ParticularStock from './components/ParticularStock/ParticularStock';
+import Billetera from './components/Billetera/Billetera';
 import BuyAction from './components/BuyAction/BuyAction';
 
 //styles
@@ -37,6 +38,7 @@ function App() {
             <Route path={"/empresas"} element={<ParticularStock />} />
 
             <Route path={"/comprar"} element={<BuyAction />} />
+            <Route path={"/billetera"} element={<Billetera />} />
 
             <Route path="*" element={<NotFoundpage />} />
           </Routes>

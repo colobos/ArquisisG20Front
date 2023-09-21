@@ -60,10 +60,10 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/IP"
+                    to="/billetera"
                     className="router-link-exact-active"
                   >
-                    IP del user
+                    Cargar Billetera
                   </NavLink>
                 </NavItem>
               )}

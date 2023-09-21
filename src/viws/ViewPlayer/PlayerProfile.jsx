@@ -22,15 +22,17 @@ function PlayerProfile() {
             const token = await getAccessTokenSilently(); 
             console.log("Token del usuario:", token);
 
-            console.log("USER USER");
-            console.log(user);
+            const stub = user.sub;
+            const parts = stub.split('|'); 
+            const id = parts[1]; 
 
             const configaxios = {
                 headers: {
                     "Authorization": `${token}`, 
                 }
             };
-            // Falta enviale el id respectivo
+            console.log(user.sub);
+            //FALTA ENVIAR EL ID DEL USUARIO
             const url = `${config.route}purchase/perfildata`; 
             console.log(url)
             const response = await axios.get(url)

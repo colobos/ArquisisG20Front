@@ -11,10 +11,11 @@ function SearchStocks() {
     const [fields_shown, setStocks] = useState([])
     const navigate = useNavigate();
     
-    const myfields = (params) => {
+    const myfields = (symbol, IdLastUpdateStock) => {
       navigate("/empresas", {
         state: {
-          params
+          symbol,
+          IdLastUpdateStock,
         }
       })
     }
@@ -56,7 +57,7 @@ function SearchStocks() {
                 <p className="labelspecific">Empresa: {r.shortName}</p>
                 <p className="labelspecific">Simbolo: {r.symbol}</p>
                 <p className="labelspecific">Ultimo precio: {r.price}</p>
-                <button className='botonsubmit2' onClick={()=>myfields(r.symbol)}>Ver Detalles</button>
+                <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock)}>Ver Detalles</button>
               </div>
             ))}
           </div>

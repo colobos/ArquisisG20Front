@@ -18,13 +18,15 @@ function ParticularStock() {
   const { getAccessTokenSilently } = useAuth0();
   const location = useLocation();
   
-  const params_symbol = location.state.params;
+  const params_symbol = location.state.symbol;
+  const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
 
 
-  const wantToBuy = (params) => {
+  const wantToBuy = (symbol, IdLastUpdateStock) => {
     navigate("/comprar", {
       state: {
-        params
+        symbol,
+        IdLastUpdateStock,
       }
     })
   }
@@ -43,6 +45,8 @@ function ParticularStock() {
               "Authorization": `${token}`, 
           }
       };
+      console.log("VAR");
+      console.log(params_symbol);
       const url = `${config.route}stocks/${params_symbol}?page=${userPageInput}&size=${pageSize}`; 
       console.log(url);
       const response = await axios.get(url, configaxios);
@@ -76,7 +80,7 @@ function ParticularStock() {
       </div>
 
       <div className="DivTitleBack">
-                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol)}>Comprar Acciones</button>
+                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol, params_IdLastUpdateStock)}>Comprar Acciones</button>
         </div>
 
       <div className="pageInput">
