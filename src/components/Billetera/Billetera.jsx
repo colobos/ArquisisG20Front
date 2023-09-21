@@ -1,21 +1,18 @@
 import React, {useEffect, useState } from "react";
 import axios from 'axios';
-import "./BuyAction.css"
+import "./Billetera.css"
 import { useAuth0 } from "@auth0/auth0-react"; 
 import config from '../../configroutes'
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
-function BuyAction() {
+function Billetera() {
     const { getAccessTokenSilently } = useAuth0();
+    const [fields_shown, setStocks] = useState([])
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-      amount: ""
+      money: ""
   })
-  const location = useLocation();
-  const params_symbol = location.state.symbol;
-  const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
 
   const {
     user,
@@ -49,23 +46,18 @@ function BuyAction() {
               }
           };
 
-          console.log(params_symbol);
           const stub = user.sub;
           const parts = stub.split('|'); 
           const id = parts[1]; 
           const body = {
             user_id: id,
-            symbol: params_symbol,
-            group_id: params_IdLastUpdateStock,
-            ...formData
+            ...formData 
           };
-          console.log(body)
-
           const url = `${config.route}/ruta` //TODO:
           console.log(url)
           const response = await axios.post(url, body, configaxios)
           console.log(response.data, "response.data")
-          //navigate("/perfil_empresa"); // Ir al inicio
+          //navigate("/"); // Ir al inicio
       } catch (error) {
           console.log(error, "hay error");
       } 
@@ -78,16 +70,15 @@ function BuyAction() {
     return (
         <div className="DivPrincipalSearch3">
           <div className="DivTitle">
-            <h1 className="title">Comprar Acciones</h1>
-            <h1 className="title">{params_symbol}</h1>
+            <h1 className="title">Cargar Billetera</h1>
           </div>
   
           <div className="MainDivListFields">
           <form className="form" onSubmit={sentToApi}>
-            <p className="labelspecific">Asigna la cantidad a comprar</p>
-            <input type="text" name="amount" placeholder="Ingresa un valor" value={formData.amount} onChange={handleChange}></input>
+            <p className="labelspecific">Asigna tu dinero para cargar</p>
+            <input type="text" name="money" placeholder="Ingresa un valor" value={formData.money} onChange={handleChange}></input>
             <div>
-              <button type="submit" className='botonsubmit' onClick={sentToApi}>Comprar</button>
+              <button type="submit" className='botonsubmit' onClick={sentToApi}>Enviar Carga</button>
             </div>
             </form>
           </div>
@@ -95,9 +86,5 @@ function BuyAction() {
       );
 }
 
-export default BuyAction;
-
-
-
-
-
+export default Billetera;
+//<a href={`empresas/${r.symbol}`}><button className="botonsubmit2">Ver Detalles</button></a>
