@@ -49,6 +49,10 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.50.0"
+    "@babel/core": "^7.22.20",
+    "@babel/preset-env": "^7.22.20",
+    "@babel/preset-react": "^7.22.15",
+    "eslint": "^8.50.0",
+    "eslint-plugin-react": "^7.33.2"
   }
 }

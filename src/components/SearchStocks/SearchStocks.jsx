@@ -44,7 +44,7 @@ function SearchStocks() {
 
     useEffect(() => {
         getInfo()
-    })
+    },[])
 
     return (
         <div className="DivPrincipalSearch">

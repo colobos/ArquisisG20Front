@@ -59,7 +59,7 @@ function ParticularStock() {
 
   useEffect(() => {
     getInfo();
-  }); 
+  }, []); 
 
   const handlePageInputChange = (event) => {
     const newPage = parseInt(event.target.value, 10);

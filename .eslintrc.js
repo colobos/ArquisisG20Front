@@ -5,7 +5,7 @@ module.exports = {
     'es2021': true,
     'node': true
   },
-  'extends': 'eslint:recommended',
+  'extends': ['eslint:recommended', 'plugin:react/recommended'],
   'overrides': [
     {
       'env': {
@@ -14,13 +14,11 @@ module.exports = {
       'files': [
         '.eslintrc.{js,cjs}'
       ],
-      'parserOptions': {
-        'sourceType': 'module',
-      }
     }
   ],
   'parserOptions': {
-    'ecmaVersion': 'latest'
+    'ecmaVersion': 'latest',
+    'sourceType': 'module',
   },
   'rules': {
     'indent': ['error', 2, { SwitchCase: 1 }], // Use 2 spaces for indentation
