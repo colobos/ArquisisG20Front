@@ -1,7 +1,6 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 
 import Hero from "../components/Hero";
-import Content from "../components/Content";
 
 const Home = () => (
   <Fragment>

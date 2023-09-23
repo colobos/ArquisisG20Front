@@ -1,10 +1,9 @@
-import React, {useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import axios from 'axios';
 import "./BuyAction.css"
 import { useAuth0 } from "@auth0/auth0-react"; 
 import config from '../../configroutes'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 
 
 function BuyAction() {
@@ -19,6 +18,7 @@ function BuyAction() {
   const params_shortName = location.state.shortName;
   const [ipAddress, setIpAddress] = useState(null);
   const [dateTime, setDateTime] = useState(null);
+  const [validation, setValidation] = useState("");
 
   const {
     user,
@@ -27,19 +27,13 @@ function BuyAction() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     console.log(name, value)
+    setValidation("");
     setFormData((prevData) => ({
         ...prevData,
         [name]: value,
     }));
   };
     
-    const myfields = (params) => {
-      navigate("/empresas", {
-        state: {
-          params
-        }
-      })
-    }
 
   const sentToApi = async (event) => {
     event.preventDefault()
@@ -60,17 +54,22 @@ function BuyAction() {
           symbol: params_symbol,
           group_id: params_IdLastUpdateStock,
           ...formData,
-          shortName: params_shortName,
+          shortname: params_shortName,
           ip: ipAddress,
           datetime: dateTime
         };
         console.log(body)
 
-        const url = `${config.route}purchase` //TODO:
+        const url = `${config.route}purchase` 
         console.log(url)
         const response = await axios.post(url, body, configaxios)
         console.log(response.data, "response.data")
-        //navigate("/perfil_empresa"); // Ir al inicio
+        if (response.data.validate === true) {
+          navigate("/perfil");
+        }
+        if (response.data.validate === false) {
+          setValidation("No se pudo realizar la compra");
+        }
     } catch (error) {
         console.log(error, "hay error");
     } 
@@ -99,6 +98,7 @@ function BuyAction() {
     return (
         <div className="DivPrincipalSearch3">
           <div className="DivTitle">
+          <h4 className="validation-control">{validation}</h4>
             <h1 className="title">Comprar Acciones</h1>
             <h1 className="title">{params_symbol}</h1>
           </div>
