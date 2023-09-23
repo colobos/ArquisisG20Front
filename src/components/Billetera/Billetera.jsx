@@ -1,15 +1,12 @@
-import React, {useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import axios from 'axios';
 import "./Billetera.css"
 import { useAuth0 } from "@auth0/auth0-react"; 
 import config from '../../configroutes'
-import { useNavigate } from 'react-router-dom';
 
 
 function Billetera() {
     const { getAccessTokenSilently } = useAuth0();
-    const [fields_shown, setStocks] = useState([])
-    const navigate = useNavigate();
     const [formData, setFormData] = useState({
       money: ""
   })
@@ -28,14 +25,6 @@ function Billetera() {
     }));
 };
     
-    const myfields = (params) => {
-      navigate("/empresas", {
-        state: {
-          params
-        }
-      })
-    }
-
     const sentToApi = async (event) => {
       event.preventDefault()
       try {
@@ -53,9 +42,9 @@ function Billetera() {
             user_id: id,
             ...formData 
           };
-          const url = `${config.route}/ruta` //TODO:
+          const url = `${config.route}wallet/${id}`
           console.log(url)
-          const response = await axios.post(url, body, configaxios)
+          const response = await axios.patch(url, body, configaxios)
           console.log(response.data, "response.data")
           //navigate("/"); // Ir al inicio
       } catch (error) {
@@ -65,7 +54,7 @@ function Billetera() {
   }
 
     useEffect(() => {
-    },[])
+    })
 
     return (
         <div className="DivPrincipalSearch3">

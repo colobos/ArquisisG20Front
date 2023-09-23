@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import "./PlayerProfile.css";
 import { useAuth0 } from "@auth0/auth0-react"; 
@@ -11,16 +11,12 @@ function PlayerProfile() {
 
     const {
       user,
-      isAuthenticated,
-      loginWithRedirect,
-      logout,
     } = useAuth0();
 
 
     const getInfo = async () => {
         try {
             const token = await getAccessTokenSilently(); 
-            console.log("Token del usuario:", token);
 
             const stub = user.sub;
             const parts = stub.split('|'); 
@@ -31,11 +27,10 @@ function PlayerProfile() {
                     "Authorization": `${token}`, 
                 }
             };
-            console.log(user.sub);
-            //FALTA ENVIAR EL ID DEL USUARIO
-            const url = `${config.route}purchase/perfildata`; 
+        
+            const url = `${config.route}purchase/perfildata/${id}`; 
             console.log(url)
-            const response = await axios.get(url)
+            const response = await axios.get(url, configaxios)
             console.log(response)
             setStocks(response.data)
         } catch (error) {
@@ -45,7 +40,7 @@ function PlayerProfile() {
 
     useEffect(() => {
         getInfo()
-    },[])
+    })
 
     return (
         <div className="DivPrincipalSearch">

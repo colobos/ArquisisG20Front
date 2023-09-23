@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import axios from 'axios';
 import "./SearchField.css"
 import { useAuth0 } from "@auth0/auth0-react"; 
@@ -11,11 +11,12 @@ function SearchStocks() {
     const [fields_shown, setStocks] = useState([])
     const navigate = useNavigate();
     
-    const myfields = (symbol, IdLastUpdateStock) => {
+    const myfields = (symbol, IdLastUpdateStock, shortName) => {
       navigate("/empresas", {
         state: {
           symbol,
           IdLastUpdateStock,
+          shortName,
         }
       })
     }
@@ -43,7 +44,7 @@ function SearchStocks() {
 
     useEffect(() => {
         getInfo()
-    },[])
+    })
 
     return (
         <div className="DivPrincipalSearch">
@@ -57,7 +58,7 @@ function SearchStocks() {
                 <p className="labelspecific">Empresa: {r.shortName}</p>
                 <p className="labelspecific">Simbolo: {r.symbol}</p>
                 <p className="labelspecific">Ultimo precio: {r.price}</p>
-                <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock)}>Ver Detalles</button>
+                <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock, r.shortName)}>Ver Detalles</button>
               </div>
             ))}
           </div>

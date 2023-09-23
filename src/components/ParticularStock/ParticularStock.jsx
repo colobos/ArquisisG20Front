@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import "./ParticularField.css";
-import { useParams } from 'react-router-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react"; 
 import config from '../../configroutes'
 
 function ParticularStock() {
-  const params = useParams();
-  const event_symbol = params.symbol;
   const [fields_shown, setStocks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10); 
@@ -20,13 +17,15 @@ function ParticularStock() {
   
   const params_symbol = location.state.symbol;
   const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
+  const params_shortName = location.state.shortName;
 
 
-  const wantToBuy = (symbol, IdLastUpdateStock) => {
+  const wantToBuy = (symbol, IdLastUpdateStock, shortName) => {
     navigate("/comprar", {
       state: {
         symbol,
         IdLastUpdateStock,
+        shortName,
       }
     })
   }
@@ -60,7 +59,7 @@ function ParticularStock() {
 
   useEffect(() => {
     getInfo();
-  }, [userPageInput, pageSize]); 
+  }); 
 
   const handlePageInputChange = (event) => {
     const newPage = parseInt(event.target.value, 10);
@@ -80,7 +79,7 @@ function ParticularStock() {
       </div>
 
       <div className="DivTitleBack">
-                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol, params_IdLastUpdateStock)}>Comprar Acciones</button>
+                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol, params_IdLastUpdateStock, params_shortName)}>Comprar Acciones</button>
         </div>
 
       <div className="pageInput">
