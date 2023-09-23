@@ -15,7 +15,7 @@ module.exports = {
         '.eslintrc.{js,cjs}'
       ],
       'parserOptions': {
-        'sourceType': 'script'
+        'sourceType': 'module',
       }
     }
   ],
@@ -28,6 +28,7 @@ module.exports = {
     'prefer-const': 'error', // Prefer const over let
     'require-await': 'error', // Ensure async functions have await statements
     'no-unused-vars': 'warn', // Generate a warning for unused variable
+    'import/no-commonjs': 'off',
     // Add more linter rules
   }
 }
