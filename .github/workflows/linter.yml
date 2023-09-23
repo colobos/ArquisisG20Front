@@ -23,6 +23,5 @@ jobs:
           
       - name: Change to Specific Directory and run Linter
         run: |
-          cd $GITHUB_WORKSPACE/Api_Rest  # Navigate to the repository directory
           npm install
-          yarn lint
+          npm run lint
