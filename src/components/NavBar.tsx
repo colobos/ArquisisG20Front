@@ -60,13 +60,39 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/IP"
+                    to="/billetera"
                     className="router-link-exact-active"
                   >
-                    IP del user
+                    Cargar Billetera
                   </NavLink>
                 </NavItem>
               )}
+
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/empresas_disponibles"
+                    className="router-link-exact-active"
+                  >
+                    Empresas Disponibles
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/perfil"
+                    className="router-link-exact-active"
+                  >
+                    Acciones Compradas
+                  </NavLink>
+                </NavItem>
+              )}
+
+              
             </Nav>
             <Nav className="d-none d-md-block" navbar>
               {!isAuthenticated && (
