@@ -58,8 +58,10 @@ function ParticularStock() {
   }
 
   useEffect(() => {
-    getInfo();
-  }, []); 
+    getInfo()
+  }, [userPageInput, pageSize])
+
+
 
   const handlePageInputChange = (event) => {
     const newPage = parseInt(event.target.value, 10);
