@@ -41,7 +41,7 @@ function ParticularStock() {
 
       const configaxios = {
           headers: {
-              "Authorization": `${token}`, 
+              "Authorization": `Bearer ${token}`, 
           }
       };
       console.log("VAR");

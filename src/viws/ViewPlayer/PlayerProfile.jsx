@@ -24,7 +24,7 @@ function PlayerProfile() {
 
       const configaxios = {
         headers: {
-          "Authorization": `${token}`, 
+          "Authorization": `Bearer ${token}`, 
         }
       };
         

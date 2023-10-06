@@ -2,6 +2,6 @@
   "domain": "dev-52dssjpzymdnahmc.us.auth0.com",
   "clientId": "WTURIBQcLC8k8VPAGoawcAaSdmwzcgm3",
   "client_secret": "JVqoDU8tStTodLreqaaC7Pp3ZHD68EgZNj1VTm8ETs7TDbdpVbmEiw3zTl_SuccJ",
-  "audience": "https://dev-52dssjpzymdnahmc.us.auth0.com/api/v2/",
+  "audience": "https://apigatewayjwt.com",
   "grant_type": "client_credentials"
 }

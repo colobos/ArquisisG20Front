@@ -31,7 +31,7 @@ function Billetera() {
         const token = await getAccessTokenSilently(); 
           const configaxios = {
               headers: {
-                "Authorization": `${token}`, 
+                "Authorization": `Bearer ${token}`, 
               }
           };
 
