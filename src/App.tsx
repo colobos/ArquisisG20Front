@@ -13,6 +13,7 @@ import SearchStocks from './components/SearchStocks/SearchStocks';
 import ParticularStock from './components/ParticularStock/ParticularStock';
 import Billetera from './components/Billetera/Billetera';
 import BuyAction from './components/BuyAction/BuyAction';
+import ConfirmPurchase from './components/ConfirmPurchase/ConfirmPurchase';
 
 //styles
 import './App.css';
@@ -39,6 +40,9 @@ function App() {
 
             <Route path={"/comprar"} element={<BuyAction />} />
             <Route path={"/billetera"} element={<Billetera />} />
+
+            <Route path="/confirmar-compra" element={<ConfirmPurchase />} />
+
 
             <Route path="*" element={<NotFoundpage />} />
           </Routes>
