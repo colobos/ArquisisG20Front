@@ -64,12 +64,16 @@ function BuyAction() {
         console.log(url)
         const response = await axios.post(url, body, configaxios)
         console.log(response.data, "response.data")
-        if (response.data.validate === true) {
-          navigate("/perfil");
-        }
-        if (response.data.validate === false) {
-          setValidation("No se pudo realizar la compra");
-        }
+        navigate("/confirmar-compra", {
+          state: {
+              url: data.url,
+              token: data.token,
+              amount,
+              title,
+              type,
+              price,
+          }
+      })
     } catch (error) {
         console.log(error, "hay error");
     } 
