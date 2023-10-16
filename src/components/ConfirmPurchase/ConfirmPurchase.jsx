@@ -2,11 +2,9 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 function ConfirmPurchase() {
-  // const location = useLocation();
-  // const data = location.state;
+  const location = useLocation();
+  const data = location.state;
   
-  const { state } = useLocation();
-  const data = state.dataToConfirm;
 
 
   console.log('Data in component:', data)

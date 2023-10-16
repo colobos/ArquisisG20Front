@@ -11,7 +11,7 @@ function BuyAction() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    amount: ""
+    amount: ''
   })
   const location = useLocation();
   const params_symbol = location.state.symbol;
@@ -75,17 +75,15 @@ function BuyAction() {
       console.log('tokenWebpay', tokenWebpay)
       console.log('purchaseData', purchaseData)
 
-      const dataToConfirm = {
-        url: webpayUrl,
-        token: tokenWebpay,
-        amount: purchaseData.amount,
-        title: params_shortName,
-        type: 'Compra',
-        price: purchaseData.price,
-      }
+
 
       navigate('/confirmar-compra', {
-        dataToConfirm,
+        state: { url: webpayUrl,
+          token: tokenWebpay,
+          amount: purchaseData.amount,
+          title: params_shortName,
+          type: 'Compra',
+          price: purchaseData.price, },
       })
 
     } catch (error) {

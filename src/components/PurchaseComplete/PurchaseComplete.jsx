@@ -23,7 +23,7 @@ function PurchaseCompleted() {
 
   async function commitTransaction(token) {
     return handleFetch({
-      route: '/transaction/commit',
+      route: '/transaction/validation',
       method: 'POST',
       body: {
         ws_token: token,
