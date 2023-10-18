@@ -4,9 +4,10 @@ import axios from 'axios';
 import './PlayerProfile.css';
 import { useAuth0 } from '@auth0/auth0-react'; 
 import config from '../../configroutes'
-import jsPDF from 'jspdf';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-function PlayerProfile() {
+function PredictionPlayer() {
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const [fields_shown, setStocks] = useState([])
 
@@ -14,23 +15,15 @@ function PlayerProfile() {
     user,
   } = useAuth0();
 
-  const generatePDF = (user_id, symbol, shortName, amount, group_id, datetime, country, city) => {
-    const doc = new jsPDF();
-
-    // Agrega contenido al PDF
-    doc.text('Boleta de compra', 10, 10);
-    doc.text(`Cliente ID: ${user_id}`, 10, 20);
-    doc.text(`Fecha y hora: ${datetime}`, 10, 30);
-    doc.text(`Stock Comprada: ${shortName}`, 10, 40);
-    doc.text(`Símbolo: ${symbol}`, 10, 50);
-    doc.text(`ID del stock: ${group_id}`, 10, 60);
-    doc.text(`Cantidad: ${amount}`, 10, 70);
-    doc.text(`Ubicación: ${country}, ${city}`, 10, 80);
-  
-    doc.save('boleta.pdf');
+  const myfields = (symbol, IdLastUpdateStock, shortName) => {
+    navigate("/prediccion", {
+      state: {
+        symbol,
+        IdLastUpdateStock,
+        shortName,
+      }
+    })
   }
-
-
 
   const getInfo = async () => {
     try {
@@ -46,7 +39,7 @@ function PlayerProfile() {
         }
       };
         
-      const url = `${config.route}purchase/perfildata/${id}`; 
+      const url = `${config.route}stocks`; //TO DO ROUTRE 7777
       console.log(url)
       const response = await axios.get(url, configaxios)
       console.log(response)
@@ -63,7 +56,7 @@ function PlayerProfile() {
   return (
     <div className="DivPrincipalSearch">
       <div className="DivTitle">
-        <h1 className="title">Acciones Compradas</h1>
+        <h1 className="title">Predicciones Realizadas</h1>
       </div>
       
       <div className="MainDivListFields">
@@ -72,7 +65,9 @@ function PlayerProfile() {
             <p className="labelspecific">Empresa: {r.shortName}</p>
             <p className="labelspecific">Simbolo: {r.symbol}</p>
             <p className="labelspecific">Cantidad Comprada: {r.amount}</p>
-            <button className='botonsubmit' onClick={()=>generatePDF(r.user_id, r.symbol, r.shortName, r.amount, r.group_id, r.datetime, r.country, r.city)}>Descargar Boleta</button>
+            <p className="labelspecific">Tiempo Simulado: {r.time}</p>
+            <p className="labelspecific">Estado: {r.state}</p>
+            <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock, r.shortName)}>Ver Predicción</button>
             <p className="labelspace"></p>
           </div>
         ))}
@@ -81,7 +76,7 @@ function PlayerProfile() {
   );
 }
 
-export default PlayerProfile;
+export default PredictionPlayer;
 //<a href={`grafico/${r.symbol}`}><button className="botonsubmit2">Ver Gráfico Precios</button></a>
 
 

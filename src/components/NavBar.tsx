@@ -92,6 +92,18 @@ const NavBar = () => {
                 </NavItem>
               )}
 
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/predicciones_realizadas"
+                    className="router-link-exact-active"
+                  >
+                    Simulador de Predicciones 
+                  </NavLink>
+                </NavItem>
+              )}
+
               
             </Nav>
             <Nav className="d-none d-md-block" navbar>

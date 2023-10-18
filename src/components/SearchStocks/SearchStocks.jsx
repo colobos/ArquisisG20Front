@@ -21,6 +21,7 @@ function SearchStocks() {
       })
     }
 
+    
     const getInfo = async () => {
         try {
             const token = await getAccessTokenSilently(); 
@@ -57,9 +58,7 @@ function SearchStocks() {
               <div key={r.id} className="labelfield">
                 <p className="labelspecific">Empresa: {r.shortName}</p>
                 <p className="labelspecific">Simbolo: {r.symbol}</p>
-                <p className="labelspecific">Ultimo precio: {r.price}</p>
-                <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock, r.shortName)}>Ver Detalles</button>
-              </div>
+                <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock, r.shortName)}>Ver Detalles</button>              </div>
             ))}
           </div>
         </div>

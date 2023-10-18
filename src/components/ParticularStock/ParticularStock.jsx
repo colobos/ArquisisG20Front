@@ -31,6 +31,16 @@ function ParticularStock() {
     })
   }
 
+  const wantToSimulate = (symbol, IdLastUpdateStock, shortName) => {
+    navigate("/simular", {
+      state: {
+        symbol,
+        IdLastUpdateStock,
+        shortName,
+      }
+    })
+  }
+
   const myfields = () => {
     navigate("/empresas_disponibles")
   }
@@ -80,6 +90,10 @@ function ParticularStock() {
     <div className="DivPrincipalSearch">
       <div className="DivTitle">
         <h1 className="title">Detalle Historico: {ShortName}</h1>
+      </div>
+
+      <div className="DivTitleBack">
+        <button type="" className='botonsubmit' onClick={()=>wantToSimulate(params_symbol, params_IdLastUpdateStock, params_shortName, params_price)}>Realizar Simulación</button>
       </div>
 
       <div className="DivTitleBack">
