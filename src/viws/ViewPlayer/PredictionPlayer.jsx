@@ -10,17 +10,20 @@ function PredictionPlayer() {
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const [fields_shown, setStocks] = useState([])
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false); 
 
   const {
     user,
   } = useAuth0();
 
-  const myfields = (symbol, IdLastUpdateStock, shortName) => {
+  const myfields = (symbol, shortname, prediction_value, precios, dates) => {
     navigate("/prediccion", {
       state: {
         symbol,
-        IdLastUpdateStock,
-        shortName,
+        shortname,
+        prediction_value,
+        precios,
+        dates,
       }
     })
   }
@@ -38,8 +41,9 @@ function PredictionPlayer() {
           'Authorization': `Bearer ${token}`, 
         }
       };
+      
         
-      const url = `${config.route}stocks`; //TO DO ROUTRE 7777
+      const url = `${config.route}prediction/${id}`; //TO DO ROUTRE 7777
       console.log(url)
       const response = await axios.get(url, configaxios)
       console.log(response)
@@ -62,13 +66,25 @@ function PredictionPlayer() {
       <div className="MainDivListFields">
         {fields_shown.map(r => (
           <div key={r.id} className="labelfield">
-            <p className="labelspecific">Empresa: {r.shortName}</p>
+            <p className="labelspecific">Empresa: {r.shortname}</p>
             <p className="labelspecific">Simbolo: {r.symbol}</p>
             <p className="labelspecific">Cantidad Comprada: {r.amount}</p>
             <p className="labelspecific">Tiempo Simulado: {r.time}</p>
-            <p className="labelspecific">Estado: {r.state}</p>
-            <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock, r.shortName)}>Ver Predicción</button>
-            <p className="labelspace"></p>
+
+            {r.state && ( // Mostrar el botón solo si r.state es true
+            <div>
+              <p className="labelspecific">Estado: Listo</p>
+              <button
+                className='botonsubmit2'
+                onClick={() => myfields(r.symbol, r.shortname, r.prediction_value, r.precios, r.dates)}
+                disabled={isButtonDisabled} 
+              >
+                Ver Predicción
+              </button>
+            </div>
+            )}
+            {!r.state && <p className="labelspecific">Estado: En proceso</p>}
+              <p className="labelspace"></p>
           </div>
         ))}
       </div>

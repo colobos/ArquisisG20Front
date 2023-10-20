@@ -14,7 +14,10 @@ function ParticularPrediction() {
   const chartRef = useRef();
   
   const params_symbol = location.state.symbol;
-  const params_shortName = location.state.shortName;
+  const params_shortname = location.state.shortname;
+  const params_prediction_value = location.state.prediction_value;
+  const params_precios = location.state.precios;
+  const params_dates = location.state.dates;
 
 
   const myfields = () => {
@@ -39,7 +42,6 @@ function ParticularPrediction() {
       const response = await axios.get(url, configaxios);
       console.log(response);
       setStocks(response.data);
-      setShortName(response.data[0].shortName)
     } catch (error) {
       console.log(error, "hay error");
     }
@@ -47,43 +49,30 @@ function ParticularPrediction() {
 
   useEffect(() => {
     getInfo()
-    // Datos de ejemplo (debes reemplazar esto con tus propios datos)
-    const data = [
-      { time: '2023-01-01', price: 100 },
-      { time: '2023-01-02', price: 120 },
-      { time: '2023-01-03', price: 130 },
-      { time: '2023-01-04', price: 100 },
-      { time: '2023-01-05', price: 120 },
-      { time: '2023-01-06', price: 130 },
-      { time: '2023-01-07', price: 130 },
 
-    ];
-
+    /* GRÁFICO */
     // Dimensiones del gráfico
     const width = 600;
     const height = 400;
     const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
-    
-    //********************* Configuraciones Gráfico ***********************/
-
     // Escalas para mapear datos a píxeles
     const xScale = d3
       .scaleTime()
-      .domain(d3.extent(data, (d) => new Date(d.time)))
+      .domain(d3.extent(params_dates, (d) => new Date(d)))
       .range([margin.left, width - margin.right]);
 
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.price)])
+      .domain([0, d3.max(params_precios, (d) => d)])
       .nice()
       .range([height - margin.bottom, margin.top]);
 
     // Línea generadora
     const line = d3
       .line()
-      .x((d) => xScale(new Date(d.time)))
-      .y((d) => yScale(d.price));
+      .x((d, i) => xScale(new Date(params_dates[i])))
+      .y((d) => yScale(d));
 
     // Crear SVG
     const svg = d3.select(chartRef.current).append('svg').attr('width', width).attr('height', height);
@@ -91,7 +80,7 @@ function ParticularPrediction() {
     // Agregar la línea al gráfico
     svg
       .append('path')
-      .datum(data)
+      .datum(params_precios)
       .attr('fill', 'none')
       .attr('stroke', 'steelblue')
       .attr('stroke-width', 2)
@@ -107,26 +96,24 @@ function ParticularPrediction() {
       .append('g')
       .attr('transform', `translate(${margin.left},0)`)
       .call(d3.axisLeft(yScale));
-
-    //********************* Configuraciones Gráfico ***********************/
-
-    }, [])
+    }, [params_precios, params_dates]);
 
 
   return (
     <div className="DivPrincipalSearch">
       <div className="DivTitle">
-        <h1 className="title">Simulación: {params_shortName}</h1>
+        <h1 className="title">Simulación: {params_shortname}</h1>
       </div>
 
       <div className="MainDivListFields2">
         {fields_shown.map(r => (
           <div key={r.id} className="labelfield2">
-            <p className="labelspecific">Empresa: {r.shortName}</p>
+            <p className="labelspecific">Empresa: {r.shortname}</p>
             <p className="labelspecific">Simbolo: {r.symbol}</p>
           </div>
         ))}
       </div>
+      <p className="labelspecific">Predicción: {params_prediction_value}</p>
 
       <div ref={chartRef}></div>
 

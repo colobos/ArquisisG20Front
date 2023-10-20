@@ -57,6 +57,7 @@ function SimulateStock() {
         ...formData,
         shortname: params_shortName,
         amount: formData.amount,
+        time: formData.time,
       };
 
       const url = `${config.route}backurlpredicction` 
@@ -65,8 +66,10 @@ function SimulateStock() {
       console.log(response.data, 'response.data')
       */
 
-
-      navigate("/predicciones_realizadas");
+      if (formData.amount && formData.time) {
+        navigate("/predicciones_realizadas");
+      }
+      setValidation("No se puede dejar vacío algún campo");
       
 
     } catch (error) {
