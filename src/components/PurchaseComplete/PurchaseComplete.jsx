@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router-dom';
 import { handleFetch } from '../../api/fetchHandler';
@@ -15,34 +15,34 @@ function PurchaseCompleted() {
   const lookForValidation = async () => {
     const webpayToken = searchParams.get('token_ws');
     if (webpayToken) {
-
       console.log('webpay token:', webpayToken)
-
       const token = await getAccessTokenSilently(); 
       const configaxios = {
         headers: {
           'Authorization': `Bearer ${token}`, 
         }
       };
-
       const url = `${config.route}webpay/validation`
       const body = {
         token: webpayToken,
       };
-      const backendResponse = await axios.post(url, body, configaxios);
-      console.log('backend response:', backendResponse);
-
-      if (backendResponse.data.validation === 'success') {
-        console.log('success!!');
+      try {
+        const backendResponse = await axios.post(url, body, configaxios);
+        console.log('backend response:', backendResponse);
+        if (backendResponse.data.validation === 'success') {
+          console.log('success!!');
+        }
+      } catch (error) {
+        console.error('Error during validation POST:', error);
       }
     } else {
       console.log('no webpay token');
     }
   }
 
-
-  //lookForValidation();
-
+  useEffect(() => {
+    lookForValidation(); // Call the function once after the initial render
+  }, []); 
 
   // if (isLoading) {
   //   return (
