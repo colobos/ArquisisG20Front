@@ -5,10 +5,7 @@ function ConfirmPurchase() {
   const location = useLocation();
   const data = location.state;
   
-
-
   console.log('Data in component:', data)
-
   return (
     <div >
       <p >Confirmar compra</p>

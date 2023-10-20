@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CookiesProvider, useCookies } from 'react-cookie';
 
 import {
   Collapse,
@@ -30,7 +31,6 @@ const NavBar = () => {
     loginWithRedirect,
     logout,
   } = useAuth0();
-  
 
   const logoutWithRedirect = () =>
     logout({

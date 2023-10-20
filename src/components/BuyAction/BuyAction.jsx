@@ -83,7 +83,9 @@ function BuyAction() {
           amount: purchaseData.amount,
           title: params_shortName,
           type: 'Compra',
-          price: purchaseData.price, },
+          price: purchaseData.price, 
+          purchaseData: purchaseData
+        },
       })
 
     } catch (error) {
