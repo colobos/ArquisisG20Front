@@ -1,7 +1,8 @@
-import {useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import {useEffect, useState } from 'react';
 import axios from 'axios';
-import "./BuyAction.css"
-import { useAuth0 } from "@auth0/auth0-react"; 
+import './BuyAction.css'
+import { useAuth0 } from '@auth0/auth0-react'; 
 import config from '../../configroutes'
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -10,7 +11,7 @@ function BuyAction() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    amount: ""
+    amount: ''
   })
   const location = useLocation();
   const params_symbol = location.state.symbol;
@@ -18,7 +19,7 @@ function BuyAction() {
   const params_shortName = location.state.shortName;
   const [ipAddress, setIpAddress] = useState(null);
   const [dateTime, setDateTime] = useState(null);
-  const [validation, setValidation] = useState("");
+  const [validation, setValidation] = useState('');
 
   const {
     user,
@@ -27,10 +28,10 @@ function BuyAction() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     console.log(name, value)
-    setValidation("");
+    setValidation('');
     setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
+      ...prevData,
+      [name]: value,
     }));
   };
     
@@ -39,44 +40,61 @@ function BuyAction() {
     event.preventDefault()
     try {
       const token = await getAccessTokenSilently(); 
-        const configaxios = {
-            headers: {
-              "Authorization": `Bearer ${token}`, 
-            }
-        };
-
-        console.log(params_symbol);
-        const stub = user.sub;
-        const parts = stub.split('|'); 
-        const id = parts[1]; 
-        const body = {
-          user_id: id,
-          symbol: params_symbol,
-          group_id: params_IdLastUpdateStock,
-          ...formData,
-          shortname: params_shortName,
-          ip: ipAddress,
-          datetime: dateTime
-        };
-        console.log(body)
-
-        const url = `${config.route}purchase` 
-        console.log(url)
-        const response = await axios.post(url, body, configaxios)
-        console.log(response.data, "response.data")
-        if (response.data.validate === true) {
-          navigate("/perfil");
+      const configaxios = {
+        headers: {
+          'Authorization': `Bearer ${token}`, 
         }
-        if (response.data.validate === false) {
-          setValidation("No se pudo realizar la compra");
-        }
+      };
+
+      console.log(params_symbol);
+      const stub = user.sub;
+      const parts = stub.split('|'); 
+      const id = parts[1]; 
+
+      const body = {
+        user_id: id,
+        symbol: params_symbol,
+        group_id: params_IdLastUpdateStock,
+        ...formData,
+        shortname: params_shortName,
+        ip: ipAddress,
+        datetime: dateTime,
+        amount: formData.amount,
+      };
+      console.log(body)
+
+      const url = `${config.route}webpay/request` 
+      console.log(url)
+      const response = await axios.post(url, body, configaxios)
+      console.log(response.data, 'response.data')
+      const webpayUrl = response.data.url;
+      const tokenWebpay = response.data.token;
+      const purchaseData = response.data.purchaseData;
+
+      console.log('webpayUrl', webpayUrl)
+      console.log('tokenWebpay', tokenWebpay)
+      console.log('purchaseData', purchaseData)
+
+
+
+      navigate('/confirmar-compra', {
+        state: { url: webpayUrl,
+          token: tokenWebpay,
+          amount: purchaseData.amount,
+          title: params_shortName,
+          type: 'Compra',
+          price: purchaseData.price, 
+          purchaseData: purchaseData
+        },
+      })
+
     } catch (error) {
-        console.log(error, "hay error");
+      console.log(error, 'hay error');
     } 
   }
 
-  const getIP = async () => {
-    axios.get('https://httpbin.org/ip')
+  const getIP = async () =>  {
+    await axios.get('https://httpbin.org/ip')
       .then(response => {
         // Extract the IP address from the response data
         const ip = response.data.origin;
@@ -91,29 +109,29 @@ function BuyAction() {
   useEffect(() => {
     getIP();
     setDateTime(new Date().toLocaleString());
-    console.log("ipAddress:", ipAddress);
-    console.log("date", dateTime);
+    console.log('ipAddress:', ipAddress);
+    console.log('date', dateTime);
   },[ipAddress, dateTime])
 
-    return (
-        <div className="DivPrincipalSearch3">
-          <div className="DivTitle">
-          <h4 className="validation-control">{validation}</h4>
-            <h1 className="title">Comprar Acciones</h1>
-            <h1 className="title">{params_symbol}</h1>
-          </div>
+  return (
+    <div className="DivPrincipalSearch3">
+      <div className="DivTitle">
+        <h4 className="validation-control">{validation}</h4>
+        <h1 className="title">Comprar Acciones</h1>
+        <h1 className="title">{params_symbol}</h1>
+      </div>
   
-          <div className="MainDivListFields">
-          <form className="form" onSubmit={sentToApi}>
-            <p className="labelspecific">Asigna la cantidad a comprar</p>
-            <input type="text" name="amount" placeholder="Ingresa un valor" value={formData.amount} onChange={handleChange}></input>
-            <div>
-              <button type="submit" className='botonsubmit' onClick={sentToApi}>Comprar</button>
-            </div>
-            </form>
+      <div className="MainDivListFields">
+        <form className="form" onSubmit={sentToApi}>
+          <p className="labelspecific">Asigna la cantidad a comprar</p>
+          <input type="text" name="amount" placeholder="Ingresa un valor" value={formData.amount} onChange={handleChange}></input>
+          <div>
+            <button type="submit" className='botonsubmit' onClick={sentToApi}>Comprar</button>
           </div>
-        </div>
-      );
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default BuyAction;

@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import "./PlayerProfile.css";
-import { useAuth0 } from "@auth0/auth0-react"; 
+import './PlayerProfile.css';
+import { useAuth0 } from '@auth0/auth0-react'; 
 import config from '../../configroutes'
 
 function PlayerProfile() {
   const { getAccessTokenSilently } = useAuth0();
   const [fields_shown, setStocks] = useState([])
-
 
   const {
     user,
@@ -24,7 +24,7 @@ function PlayerProfile() {
 
       const configaxios = {
         headers: {
-          "Authorization": `Bearer ${token}`, 
+          'Authorization': `Bearer ${token}`, 
         }
       };
         
