@@ -60,6 +60,7 @@ function BuyAction() {
         ip: ipAddress,
         datetime: dateTime,
         amount: formData.amount,
+        numero_grupo: "20",
       };
       console.log(body)
 
