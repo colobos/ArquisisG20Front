@@ -60,7 +60,7 @@ function SimulateStock() {
         time: formData.time,
       };
 
-      const url = `${config.route}requestprediction` //RUTA PREDICCION
+      const url = `${config.route}prediction/request` //RUTA PREDICCION
       console.log(url)
       const response = await axios.post(url, body, configaxios) //TO DO
       console.log(response.data, 'response.data')
