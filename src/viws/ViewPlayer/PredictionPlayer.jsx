@@ -16,9 +16,10 @@ function PredictionPlayer() {
     user,
   } = useAuth0();
 
-  const myfields = (symbol, shortname, prediction_value, precios, dates) => {
+  const myfields = (id, symbol, shortname, prediction_value, precios, dates) => {
     navigate("/prediccion", {
       state: {
+        id,
         symbol,
         shortname,
         prediction_value,
@@ -69,13 +70,14 @@ function PredictionPlayer() {
             <p className="labelspecific">Simbolo: {r.symbol}</p>
             <p className="labelspecific">Cantidad Comprada: {r.amount}</p>
             <p className="labelspecific">Tiempo Simulado: {r.time}</p>
+            <p className="labelspecific">Id Predicción: {r.id}</p>
 
             {r.state && ( // Mostrar el botón solo si r.state es true
             <div>
               <p className="labelspecific">Estado: Listo</p>
               <button
                 className='botonsubmit2'
-                onClick={() => myfields(r.symbol, r.shortname, r.prediction_value, r.precios, r.dates)}
+                onClick={() => myfields(r.id, r.symbol, r.shortname, r.prediction_value, r.precios, r.dates)}
                 disabled={isButtonDisabled} 
               >
                 Ver Predicción

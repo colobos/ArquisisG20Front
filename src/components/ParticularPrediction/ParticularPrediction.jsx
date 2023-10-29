@@ -13,6 +13,7 @@ function ParticularPrediction() {
   const location = useLocation();
   const chartRef = useRef();
   
+  const params_id = location.state.id;
   const params_symbol = location.state.symbol;
   const params_shortname = location.state.shortname;
   const params_prediction_value = location.state.prediction_value;
@@ -35,13 +36,14 @@ function ParticularPrediction() {
         }
       };
       console.log("VAR");
-      console.log(params_symbol);
-      console.log(params_price);
-      const url = `${config.route}stocks/${params_symbol}?page=0&size=0`; //RUTA PREDICCION
+      /*console.log(params_symbol);*/
+      /*console.log(params_price);*/
+      /*console.log(params_id)
+      const url = `${config.route}getprediction/${params_id}`; //RUTA PREDICCION
       console.log(url);
       const response = await axios.get(url, configaxios);
       console.log(response);
-      setStocks(response.data);
+      setStocks(response.data);*/
     } catch (error) {
       console.log(error, "hay error");
     }
