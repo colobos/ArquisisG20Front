@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import axios from 'axios';
-import './ParticularField.css';
+import "./ParticularField.css";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react'; 
+import { useAuth0 } from "@auth0/auth0-react"; 
 import config from '../../configroutes'
 
 function ParticularStock() {
@@ -22,7 +22,17 @@ function ParticularStock() {
 
 
   const wantToBuy = (symbol, IdLastUpdateStock, shortName) => {
-    navigate('/comprar', {
+    navigate("/comprar", {
+      state: {
+        symbol,
+        IdLastUpdateStock,
+        shortName,
+      }
+    })
+  }
+
+  const wantToSimulate = (symbol, IdLastUpdateStock, shortName) => {
+    navigate("/simular", {
       state: {
         symbol,
         IdLastUpdateStock,
@@ -32,20 +42,20 @@ function ParticularStock() {
   }
 
   const myfields = () => {
-    navigate('/empresas_disponibles')
+    navigate("/empresas_disponibles")
   }
 
   const getInfo = async () => {
     try {
       const token = await getAccessTokenSilently(); 
-      console.log('Token del usuario:', token);
+      console.log("Token del usuario:", token);
 
       const configaxios = {
         headers: {
-          'Authorization': `Bearer ${token}`, 
+          "Authorization": `Bearer ${token}`, 
         }
       };
-      console.log('VAR');
+      console.log("VAR");
       console.log(params_symbol);
       console.log(params_price);
       const url = `${config.route}stocks/${params_symbol}?page=${userPageInput}&size=${pageSize}`; 
@@ -55,7 +65,7 @@ function ParticularStock() {
       setStocks(response.data);
       setShortName(response.data[0].shortName)
     } catch (error) {
-      console.log(error, 'hay error');
+      console.log(error, "hay error");
     }
   }
 
@@ -80,6 +90,10 @@ function ParticularStock() {
     <div className="DivPrincipalSearch">
       <div className="DivTitle">
         <h1 className="title">Detalle Historico: {ShortName}</h1>
+      </div>
+
+      <div className="DivTitleBack">
+        <button type="" className='botonsubmit' onClick={()=>wantToSimulate(params_symbol, params_IdLastUpdateStock, params_shortName, params_price)}>Realizar Simulación</button>
       </div>
 
       <div className="DivTitleBack">
