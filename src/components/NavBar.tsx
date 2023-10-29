@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CookiesProvider, useCookies } from 'react-cookie';
 
 import {
   Collapse,
@@ -31,6 +30,7 @@ const NavBar = () => {
     loginWithRedirect,
     logout,
   } = useAuth0();
+  
 
   const logoutWithRedirect = () =>
     logout({
@@ -88,6 +88,18 @@ const NavBar = () => {
                     className="router-link-exact-active"
                   >
                     Acciones Compradas
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/predicciones_realizadas"
+                    className="router-link-exact-active"
+                  >
+                    Simulador de Predicciones 
                   </NavLink>
                 </NavItem>
               )}

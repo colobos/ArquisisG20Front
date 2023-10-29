@@ -1,0 +1,20 @@
+
+.pageSizeInput{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.pageInput{
+    margin-top: 20px;
+}
+.labelfield2{
+    margin-bottom: 20px;
+}
+.MainDivListFields2{
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+.botonsubmit{
+    margin-top: 20px;
+}
