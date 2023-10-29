@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState} from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router-dom';
 import { handleFetch } from '../../api/fetchHandler';
@@ -7,25 +7,18 @@ import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 
 function PurchaseCompleted() {
-  const { getAccessTokenSilently } = useAuth0();
+  const { loginWithRedirect } = useAuth0();
   const [searchParams] = useSearchParams();
-  const { user } = useAuth0();
+  const cachedId = localStorage.getItem('cachedId');
+  const cachedToken = localStorage.getItem('cachedToken');
+  const [response_show, setShowResponse] = useState([])
 
   const lookForValidation = async () => {
     const webpayToken = searchParams.get('token_ws');
-    let userInfo = null;
-    let retries = 0;
-    const MAX_RETRIES = 5;
-
-    while (!userInfo && retries < MAX_RETRIES) {
-      userInfo = await getUserInfo();
-      retries++;
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1 segundo antes del siguiente intento
-    }
 
     if (webpayToken) {
       console.log('webpay token:', webpayToken);
-      const token = await getAccessTokenSilently(); 
+      const token = cachedToken
       const configaxios = {
         headers: {
           'Authorization': `Bearer ${token}`, 
@@ -38,6 +31,7 @@ function PurchaseCompleted() {
       try {
         const backendResponse = await axios.post(url, body, configaxios);
         console.log('backend response:', backendResponse);
+        setShowResponse(backendResponse.data.message);
         if (backendResponse.data.validation === true) {
           console.log('success!!');
         }
@@ -46,58 +40,46 @@ function PurchaseCompleted() {
       }
     } else {
       console.log('no webpay token');
-      const token = await getAccessTokenSilently(); 
+      const token = cachedToken
+      const url = `${config.route}webpay/validation`;
       const configaxios = {
         headers: {
           'Authorization': `Bearer ${token}`, 
         }
       };
-      const stub = userInfo ? userInfo.sub : null;
-      const parts = stub ? stub.split('|') : [];
-      const id = parts.length > 1 ? parts[1] : null;
-      const url = `${config.route}webpay/validation`;
-      console.log('id:', id);
       const body = {
         token: '',
-        user_id: id,
+        user_id: cachedId,
       };
       try {
         const backendResponse = await axios.post(url, body, configaxios);
         console.log('backend response:', backendResponse);
+        setShowResponse(backendResponse.data.message);
       } catch (error) {
         console.error('Error during validation POST:', error);
       }
-    }
+    } 
   }
 
-  const getUserInfo = async () => {
-    try {
-      const { getAccessTokenSilently } = useAuth0();
-      const token = await getAccessTokenSilently();
-      const configaxios = {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        }
-      };
-      const userInfo = await axios.get('URL_PARA_OBTENER_INFO_DEL_USUARIO', configaxios);
-      return userInfo.data;
-    } catch (error) {
-      console.error('Error al obtener la información del usuario:', error);
-      return null;
-    }
-  };
+  const reedireccion = async (event) => {
+    loginWithRedirect();
+  }
 
   useEffect(() => {
+    console.log('Cached ID:', cachedId);
+    console.log('Cached Token:', cachedToken);
     lookForValidation(); // Llama a la función una vez después de la renderización inicial
   }, []);
 
   return (
-    <div>
-      <h1></h1>
-      <p>por cambiar....</p>
-      <Link to="/">
-        Volver a inicio
-      </Link>
+    <div className="DivPrincipalSearch3">
+      <div className="DivTitle">
+            <h1 className="title">Respuesta:</h1>
+      </div>
+      <h3 className="title">{response_show}:</h3>
+      <div>
+            <button type="submit" className='botonsubmit' onClick={reedireccion}>Reedirigir a Menú Principal</button>
+      </div>
     </div>
   );
 }

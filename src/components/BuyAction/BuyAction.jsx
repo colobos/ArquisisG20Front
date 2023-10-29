@@ -20,6 +20,8 @@ function BuyAction() {
   const [ipAddress, setIpAddress] = useState(null);
   const [dateTime, setDateTime] = useState(null);
   const [validation, setValidation] = useState('');
+  const [id, setId] = useState('');
+  const [token, setToken] = useState('');
 
   const {
     user,
@@ -50,6 +52,8 @@ function BuyAction() {
       const stub = user.sub;
       const parts = stub.split('|'); 
       const id = parts[1]; 
+      setToken(token);
+      setId(id);
 
       const body = {
         user_id: id,
@@ -113,6 +117,17 @@ function BuyAction() {
     console.log('ipAddress:', ipAddress);
     console.log('date', dateTime);
   },[ipAddress, dateTime])
+
+  useEffect(() => {
+    // Almacenar id y token en el almacenamiento local
+    if (id) {
+      localStorage.setItem('cachedId', id);
+    }
+    if (token) {
+      localStorage.setItem('cachedToken', token);
+    }
+  }, [id, token]);
+
 
   return (
     <div className="DivPrincipalSearch3">
