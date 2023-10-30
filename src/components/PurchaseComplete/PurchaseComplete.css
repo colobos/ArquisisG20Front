@@ -1,0 +1,41 @@
+
+.DivPrincipalSearch3 {
+    border-color: rgb(217,217,217);
+    background-color: rgb(217,217,217);
+
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
+    overflow-y: auto;
+
+    padding: 0 1rem;
+    border-radius: 25px;
+
+    margin-top: 20px;
+    margin-right: 200px;
+    margin-left: 200px;
+    margin-bottom: 20px;
+    width: 650px;
+    padding-bottom: 30px;
+
+}
+
+.pageSizeInput{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.pageInput{
+    margin-top: 20px;
+}
+.labelfield2{
+    margin-bottom: 20px;
+}
+.MainDivListFields2{
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+.botonsubmit{
+    margin-top: 20px;
+}

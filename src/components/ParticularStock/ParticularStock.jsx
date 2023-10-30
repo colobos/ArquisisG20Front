@@ -18,10 +18,21 @@ function ParticularStock() {
   const params_symbol = location.state.symbol;
   const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
   const params_shortName = location.state.shortName;
+  const params_price = location.state.price;
 
 
   const wantToBuy = (symbol, IdLastUpdateStock, shortName) => {
     navigate("/comprar", {
+      state: {
+        symbol,
+        IdLastUpdateStock,
+        shortName,
+      }
+    })
+  }
+
+  const wantToSimulate = (symbol, IdLastUpdateStock, shortName) => {
+    navigate("/simular", {
       state: {
         symbol,
         IdLastUpdateStock,
@@ -40,12 +51,13 @@ function ParticularStock() {
       console.log("Token del usuario:", token);
 
       const configaxios = {
-          headers: {
-              "Authorization": `Bearer ${token}`, 
-          }
+        headers: {
+          "Authorization": `Bearer ${token}`, 
+        }
       };
       console.log("VAR");
       console.log(params_symbol);
+      console.log(params_price);
       const url = `${config.route}stocks/${params_symbol}?page=${userPageInput}&size=${pageSize}`; 
       console.log(url);
       const response = await axios.get(url, configaxios);
@@ -81,8 +93,12 @@ function ParticularStock() {
       </div>
 
       <div className="DivTitleBack">
-                <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol, params_IdLastUpdateStock, params_shortName)}>Comprar Acciones</button>
-        </div>
+        <button type="" className='botonsubmit' onClick={()=>wantToSimulate(params_symbol, params_IdLastUpdateStock, params_shortName, params_price)}>Realizar Simulación</button>
+      </div>
+
+      <div className="DivTitleBack">
+        <button type="" className='botonsubmit' onClick={()=>wantToBuy(params_symbol, params_IdLastUpdateStock, params_shortName, params_price)}>Comprar Acciones</button>
+      </div>
 
       <div className="pageInput">
         <label htmlFor="pageInput">Número de Página: </label>
@@ -118,8 +134,8 @@ function ParticularStock() {
         ))}
       </div>
       <div className="DivTitleBack">
-                <button type="" className='botonsubmit2' onClick={myfields}>Volver</button>
-        </div>
+        <button type="" className='botonsubmit2' onClick={myfields}>Volver</button>
+      </div>
     </div>
   );
 }

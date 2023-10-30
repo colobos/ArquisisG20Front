@@ -7,12 +7,19 @@ import Home from './viws/Home';
 import Profile from './viws/Profile';
 
 import PlayerProfile from "../src/viws/ViewPlayer/PlayerProfile"
+import PredictionPlayer from "../src/viws/ViewPlayer/PredictionPlayer"
 import NotFoundpage from './viws/NotFound/NotFoundpage';
 
 import SearchStocks from './components/SearchStocks/SearchStocks';
 import ParticularStock from './components/ParticularStock/ParticularStock';
+import ParticularPrediction from './components/ParticularPrediction/ParticularPrediction';
 import Billetera from './components/Billetera/Billetera';
 import BuyAction from './components/BuyAction/BuyAction';
+import SimulateStock from './components/SimulateStock/SimulateStock';
+import ConfirmPurchase from './components/ConfirmPurchase/ConfirmPurchase';
+import PurchaseCompleted from './components/PurchaseComplete/PurchaseComplete';
+
+import { CookiesProvider, useCookies } from 'react-cookie';
 
 //styles
 import './App.css';
@@ -22,6 +29,15 @@ import initFontAwesome from "./utils/initFontAwesome";
 initFontAwesome();
 
 function App() {
+
+  // const [cookies, setCookie] = useCookies(['user']);
+  // function setCookieUser(user: any) {
+  //   setCookie('user', user, { path: '/' });
+  // }
+
+  // console.log('cookies user:', cookies.user)
+
+
   return (
     <BrowserRouter>
       <div id="app" className="d-flex flex-column h-100">
@@ -33,12 +49,24 @@ function App() {
 
             <Route path="/perfil" element={<PlayerProfile />} />
 
+            <Route path="/predicciones_realizadas" element={<PredictionPlayer />} />
+
             <Route path={'/empresas_disponibles'} element={<SearchStocks />} />
 
             <Route path={"/empresas"} element={<ParticularStock />} />
 
+            <Route path={"/prediccion"} element={<ParticularPrediction />} />
+
             <Route path={"/comprar"} element={<BuyAction />} />
+
+            <Route path={"/simular"} element={<SimulateStock />} />
+
             <Route path={"/billetera"} element={<Billetera />} />
+
+            <Route path={"/confirmar-compra"} element={<ConfirmPurchase />} />
+            
+            <Route path={"/purchase-completed"} element={<PurchaseCompleted />} />
+
 
             <Route path="*" element={<NotFoundpage />} />
           </Routes>
