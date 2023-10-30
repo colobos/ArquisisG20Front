@@ -11,6 +11,7 @@ function PurchaseCompleted() {
   const [searchParams] = useSearchParams();
   const cachedId = localStorage.getItem('cachedId');
   const cachedToken = localStorage.getItem('cachedToken');
+  const cachedEmail= localStorage.getItem('cachedEmail');
   const [response_show, setShowResponse] = useState([])
 
   const lookForValidation = async () => {
@@ -27,6 +28,7 @@ function PurchaseCompleted() {
       const url = `${config.route}webpay/validation`;
       const body = {
         token: webpayToken,
+        email: cachedEmail,
       };
       try {
         const backendResponse = await axios.post(url, body, configaxios);

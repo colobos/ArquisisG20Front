@@ -81,7 +81,6 @@ function BuyAction() {
       console.log('purchaseData', purchaseData)
 
 
-
       navigate('/confirmar-compra', {
         state: { url: webpayUrl,
           token: tokenWebpay,
@@ -126,7 +125,10 @@ function BuyAction() {
     if (token) {
       localStorage.setItem('cachedToken', token);
     }
-  }, [id, token]);
+    if (user.email) {
+      localStorage.setItem('cachedEmail', user.email);
+    }
+  }, [id, token, user.email]);
 
 
   return (
