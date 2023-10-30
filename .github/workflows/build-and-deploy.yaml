@@ -23,7 +23,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
       - name: Deploy to S3
-        run: aws s3 sync /build s3://fintechapp-front --delete
+        run: aws s3 sync build s3://fintechapp-front --delete
 
  
       - name: Invalidate CloudFront cache
