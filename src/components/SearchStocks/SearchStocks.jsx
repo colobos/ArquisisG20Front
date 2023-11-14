@@ -1,69 +1,72 @@
-import {useEffect, useState } from "react";
+import {useEffect, useState } from 'react';
 import axios from 'axios';
-import "./SearchField.css"
-import { useAuth0 } from "@auth0/auth0-react"; 
+import './SearchField.css'
+import { useAuth0 } from '@auth0/auth0-react'; 
 import config from '../../configroutes'
 import { useNavigate } from 'react-router-dom';
-
+import jwtDecode from 'jwt-decode';
 
 function SearchStocks() {
-    const { getAccessTokenSilently } = useAuth0();
-    const [fields_shown, setStocks] = useState([])
-    const navigate = useNavigate();
+  const { getAccessTokenSilently } = useAuth0();
+  const [fields_shown, setStocks] = useState([])
+  const navigate = useNavigate();
     
-    const myfields = (symbol, IdLastUpdateStock, shortName) => {
-      navigate("/empresas", {
-        state: {
-          symbol,
-          IdLastUpdateStock,
-          shortName,
-        }
-      })
-    }
+  const myfields = (symbol, IdLastUpdateStock, shortName) => {
+    navigate('/empresas', {
+      state: {
+        symbol,
+        IdLastUpdateStock,
+        shortName,
+      }
+    })
+  }
 
-    const getInfo = async () => {
-        try {
-            const token = await getAccessTokenSilently(); 
-            console.log("Token del usuario:", token);
-    
-            const configaxios = {
-                headers: {
-                    "Authorization": `Bearer ${token}`, 
-                }
-            };
-    
-            const url = `${config.route}stocks`; 
-            console.log(url);
-            const response = await axios.get(url, configaxios);
-            console.log(response);
-            setStocks(response.data);
-        } catch (error) {
-            console.log(error, "hay error");
-        }
-    }
-
-    useEffect(() => {
-        getInfo()
-    },[])
-
-    return (
-        <div className="DivPrincipalSearch">
-          <div className="DivTitle">
-            <h1 className="title">Empresas Disponibles</h1>
-          </div>
+  const getInfo = async () => {
+    try {
+      const token = await getAccessTokenSilently(); 
+      console.log('Token del usuario:', token);
       
-          <div className="MainDivListFields">
-            {fields_shown.map(r => (
-              <div key={r.id} className="labelfield">
-                <p className="labelspecific">Empresa: {r.shortName}</p>
-                <p className="labelspecific">Simbolo: {r.symbol}</p>
-                <p className="labelspecific">Ultimo precio: {r.price}</p>
-                <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock, r.shortName)}>Ver Detalles</button>
-              </div>
-            ))}
+      const decodedAccessToken = JSON.parse(atob(token.split('.')[1]));
+      console.log('Decoded Access Token:', decodedAccessToken);
+
+      const configaxios = {
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        }
+      };
+    
+      const url = `${config.route}stocks`; 
+      console.log(url);
+      const response = await axios.get(url, configaxios);
+      console.log(response);
+      setStocks(response.data);
+    } catch (error) {
+      console.log(error, 'hay error');
+    }
+  }
+
+  useEffect(() => {
+    getInfo()
+  },[])
+
+  return (
+    <div className="DivPrincipalSearch">
+      <div className="DivTitle">
+        <h1 className="title">Empresas Disponibles</h1>
+      </div>
+      
+      <div className="MainDivListFields">
+        {fields_shown.map(r => (
+          <div key={r.id} className="labelfield">
+            <p className="labelspecific">Empresa: {r.shortName}</p>
+            <p className="labelspecific">Simbolo: {r.symbol}</p>
+            <p className="labelspecific">Ultimo precio: {r.price}</p>
+            <button className='botonsubmit2' onClick={()=>myfields(r.symbol, r.IdLastUpdateStock, r.shortName)}>Ver Detalles</button>
           </div>
-        </div>
-      );
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default SearchStocks;

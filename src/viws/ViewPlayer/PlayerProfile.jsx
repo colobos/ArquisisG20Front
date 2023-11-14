@@ -18,6 +18,8 @@ function PlayerProfile() {
     try {
       const token = await getAccessTokenSilently(); 
 
+      console.log('user token:', token);
+
       const stub = user.sub;
       const parts = stub.split('|'); 
       const id = parts[1]; 

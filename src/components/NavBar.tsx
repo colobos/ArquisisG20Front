@@ -32,6 +32,8 @@ const NavBar = () => {
     logout,
   } = useAuth0();
 
+  console.log('user', user);
+
   const logoutWithRedirect = () =>
     logout({
         logoutParams: {
