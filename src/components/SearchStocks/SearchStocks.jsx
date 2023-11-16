@@ -4,7 +4,6 @@ import './SearchField.css'
 import { useAuth0 } from '@auth0/auth0-react'; 
 import config from '../../configroutes'
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
 
 function SearchStocks() {
   const { getAccessTokenSilently } = useAuth0();

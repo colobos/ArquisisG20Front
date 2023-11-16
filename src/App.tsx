@@ -27,13 +27,6 @@ initFontAwesome();
 
 function App() {
 
-  // const [cookies, setCookie] = useCookies(['user']);
-  // function setCookieUser(user: any) {
-  //   setCookie('user', user, { path: '/' });
-  // }
-
-  // console.log('cookies user:', cookies.user)
-
 
   return (
     <BrowserRouter>

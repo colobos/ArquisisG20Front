@@ -20,9 +20,11 @@ import {
 } from "reactstrap";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import { decode } from "punycode";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   
   const {
@@ -30,9 +32,19 @@ const NavBar = () => {
     isAuthenticated,
     loginWithRedirect,
     logout,
+    getAccessTokenSilently
   } = useAuth0();
 
-  console.log('user', user);
+  const checkAdmin = async () => {
+    const token = await getAccessTokenSilently();
+    console.log('Token del usuario:', token);
+    const decodedAccessToken = JSON.parse(atob(token.split('.')[1]));
+    console.log('Decoded Access Token:', decodedAccessToken);
+    if (decodedAccessToken['permissions'][0] === 'admin:uses') {
+      setIsAdmin(true);
+      console.log('Es admin!!')
+    };
+  };
 
   const logoutWithRedirect = () =>
     logout({
@@ -40,6 +52,10 @@ const NavBar = () => {
           returnTo: window.location.origin,
         }
     });
+
+  console.log('user', user);
+
+  checkAdmin();
 
   return (
     <div className="nav-container">
