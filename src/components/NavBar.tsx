@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CookiesProvider, useCookies } from 'react-cookie';
 
 import {
   Collapse,
@@ -24,13 +23,47 @@ import { useAuth0 } from "@auth0/auth0-react";
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  
+  const { getAccessTokenSilently } = useAuth0();
+
+  // const isAdmin = false; // Obtener Admin. En este caso no es usuario Admin
+  const [isAdmin, setIsAdmin] = useState(true)
+  const checkAdmin = async () => {
+    const token = await getAccessTokenSilently();
+    console.log('Token del usuario:', token);
+    const decodedAccessToken = JSON.parse(atob(token.split('.')[1]));
+    console.log('Decoded Access Token:', decodedAccessToken);
+    if (decodedAccessToken['permissions'][0] === 'admin:uses') {
+      setIsAdmin(true);
+      console.log('Es admin!!')
+    }
+    else {
+        setIsAdmin(false);
+        console.log('No es admin!!');
+    }
+  };
+
+  useEffect(() => {
+    const checkUserAdmin = async () => {
+      if (isAuthenticated) {
+        try {
+          await checkAdmin(); 
+        } catch (error) {
+          console.error("Error al verificar el estado de administrador:", error);
+        }
+      }
+    };
+    checkUserAdmin(); 
+
+  }, [isOpen]); 
+
+
   const {
     user,
     isAuthenticated,
     loginWithRedirect,
     logout,
   } = useAuth0();
+  
 
   const logoutWithRedirect = () =>
     logout({
@@ -56,14 +89,15 @@ const NavBar = () => {
                   Home
                 </NavLink>
               </NavItem>
-              {isAuthenticated && (
+
+              {isAuthenticated && !isAdmin && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/billetera"
+                    to="/acciones_disponibles"
                     className="router-link-exact-active"
                   >
-                    Cargar Billetera
+                    Acciones Disponibles
                   </NavLink>
                 </NavItem>
               )}
@@ -72,10 +106,22 @@ const NavBar = () => {
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
-                    to="/empresas_disponibles"
+                    to="/subasta"
                     className="router-link-exact-active"
                   >
-                    Empresas Disponibles
+                    Subasta
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/comprar_admin"
+                    className="router-link-exact-active"
+                  >
+                    Comprar Acciones (Admin)
                   </NavLink>
                 </NavItem>
               )}

@@ -1,12 +1,13 @@
-import { Fragment } from "react";
-
+import React, { Fragment, useEffect } from "react";
 import Hero from "../components/Hero";
 
-const Home = () => (
-  <Fragment>
-    <Hero />
-    <hr />
-  </Fragment>
-);
+const Home = () => {
+  return (
+    <Fragment>
+      <Hero />
+      <hr />
+    </Fragment>
+  );
+};
 
 export default Home;

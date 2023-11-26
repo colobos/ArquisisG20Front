@@ -1,13 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {useEffect, useState } from 'react';
 import axios from 'axios';
-import './BuyAction.css'
+import './BuyActionNormalUser.css'
 import { useAuth0 } from '@auth0/auth0-react'; 
 import config from '../../configroutes'
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
-function BuyAction() {
+function BuyActionNormalUser() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -15,8 +15,8 @@ function BuyAction() {
   })
   const location = useLocation();
   const params_symbol = location.state.symbol;
-  const params_IdLastUpdateStock = location.state.IdLastUpdateStock;
-  const params_shortName = location.state.shortName;
+  const params_IdLastUpdateStock = location.state.IdLastUpdateStock; //Ajustar según ruta real
+  const params_shortName = location.state.shortName; //Ajustar según ruta real
   const [ipAddress, setIpAddress] = useState(null);
   const [dateTime, setDateTime] = useState(null);
   const [validation, setValidation] = useState('');
@@ -58,9 +58,9 @@ function BuyAction() {
       const body = {
         user_id: id,
         symbol: params_symbol,
-        group_id: params_IdLastUpdateStock,
+        group_id: params_IdLastUpdateStock, //Ajustar según ruta real
         ...formData,
-        shortname: params_shortName,
+        shortname: params_shortName, //Ajustar según ruta real
         ip: ipAddress,
         datetime: dateTime,
         amount: formData.amount,
@@ -70,7 +70,7 @@ function BuyAction() {
 
       const url = `${config.route}webpay/request` 
       console.log(url)
-      const response = await axios.post(url, body, configaxios)
+      const response = await axios.post(url, body, configaxios) //Ajustar según ruta real
       console.log(response.data, 'response.data')
       const webpayUrl = response.data.url;
       const tokenWebpay = response.data.token;
@@ -135,12 +135,14 @@ function BuyAction() {
     <div className="DivPrincipalSearch3">
       <div className="DivTitle">
         <h4 className="validation-control">{validation}</h4>
-        <h1 className="title">Comprar Acciones</h1>
+        <h1 className="title">Comprar Acciones de un Admin</h1>
         <h1 className="title">{params_symbol}</h1>
       </div>
   
       <div className="MainDivListFields">
         <form className="form" onSubmit={sentToApi}>
+          <p className="title">Stocks Disponible: {params_symbol}</p>
+
           <p className="labelspecific">Asigna la cantidad a comprar</p>
           <input type="text" name="amount" placeholder="Ingresa un valor" value={formData.amount} onChange={handleChange}></input>
           <div>
@@ -152,7 +154,7 @@ function BuyAction() {
   );
 }
 
-export default BuyAction;
+export default BuyActionNormalUser;
 
 
 
