@@ -26,7 +26,7 @@ const NavBar = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   // const isAdmin = false; // Obtener Admin. En este caso no es usuario Admin
-  const [isAdmin, setIsAdmin] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(false)
   const checkAdmin = async () => {
     const token = await getAccessTokenSilently();
     console.log('Token del usuario:', token);
