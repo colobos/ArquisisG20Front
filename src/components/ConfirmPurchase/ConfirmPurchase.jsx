@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import "./ConfirmPurchase.css"
 
 function ConfirmPurchase() {
   const location = useLocation();
@@ -7,15 +8,17 @@ function ConfirmPurchase() {
   
   console.log('Data in component:', data)
   return (
-    <div >
-      <p >Confirmar compra</p>
+    <div className="DivPrincipalSearch3">
+      <div className="DivTitle">
+            <h1 className="title">Confirmar compra</h1>
+      </div>
       <form  action={data.url} method="POST">
         <input type="hidden" name="token_ws" value={data.token} />
         <div >
-          <p >{data.title}</p>
-          <p>Tipo: {data.type}</p>
+          <p className="labelspecific">{data.title}</p>
+          <p className="labelspecific">Tipo: {data.type}</p>
         </div>
-        <button>Pagar ${data.price}</button>
+        <button className='botonsubmit'>Pagar ${data.price}</button>
       </form>
     </div>
   );
