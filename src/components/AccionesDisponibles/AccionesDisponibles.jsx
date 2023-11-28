@@ -52,8 +52,8 @@ function AccionesDisponibles() {
         }
       };
       // TODO: get admin purchases, need to use 5001 port
-    
-      const url = `${config.route}admin/getAdminActions`; 
+      // TODO: Fix CORS problem
+      const url = `${config.routeAdmin}admin/getAdminActions`; 
       console.log('url', url);
       const response = await axios.get(url, configaxios);
       console.log(response);
