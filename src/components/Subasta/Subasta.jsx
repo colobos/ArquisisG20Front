@@ -39,7 +39,6 @@ function Subasta() {
         console.log('No es admin!!');
     }
   };
-  checkAdmin();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -151,6 +150,7 @@ function Subasta() {
 
   useEffect(() => {
     getInfo()
+    checkAdmin()
   },[])
 
   return (
