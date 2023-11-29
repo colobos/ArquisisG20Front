@@ -15,6 +15,11 @@ import ParticularStock from './components/ParticularStock/ParticularStock';
 import ParticularPrediction from './components/ParticularPrediction/ParticularPrediction';
 import Billetera from './components/Billetera/Billetera';
 import BuyAction from './components/BuyAction/BuyAction';
+import AccionesDisponibles from './components/AccionesDisponibles/AccionesDisponibles';
+import Subasta from './components/Subasta/Subasta';
+import BuyActionAdmin from './components/BuyActionAdmin/BuyActionAdmin';
+import BuyActionNormalUserAsAdmin from './components/BuyActionNormalUserAsAdmin/BuyActionNormalUserAsAdmin';
+import BuyActionNormalUser from './components/BuyActionNormalUser/BuyActionNormalUser';
 import SimulateStock from './components/SimulateStock/SimulateStock';
 import ConfirmPurchase from './components/ConfirmPurchase/ConfirmPurchase';
 import PurchaseCompleted from './components/PurchaseComplete/PurchaseComplete';
@@ -26,6 +31,9 @@ import './App.css';
 
 // fontawesome
 import initFontAwesome from "./utils/initFontAwesome";
+import PetitionAction from './components/PetitionAction/PetitionAction';
+import MyPetitions from './components/MyPetitions/MyPetitions';
+;
 initFontAwesome();
 
 function App() {
@@ -51,13 +59,27 @@ function App() {
 
             <Route path="/predicciones_realizadas" element={<PredictionPlayer />} />
 
+            <Route path="/peticiones" element={<PetitionAction />} />
+
+            <Route path="/peticiones_ofertas_mias" element={<MyPetitions />} />
+
             <Route path={'/empresas_disponibles'} element={<SearchStocks />} />
 
+            <Route path={'/acciones_disponibles'} element={<AccionesDisponibles />} />
+            
             <Route path={"/empresas"} element={<ParticularStock />} />
 
             <Route path={"/prediccion"} element={<ParticularPrediction />} />
 
             <Route path={"/comprar"} element={<BuyAction />} />
+
+            <Route path={"/comprar_admin"} element={<BuyActionAdmin />} />
+
+            <Route path={"/comprar_admin_user_normal"} element={<BuyActionNormalUserAsAdmin />} />
+
+            <Route path={"/comprar_user_normal"} element={<BuyActionNormalUser />} />
+
+            <Route path={"/subasta"} element={<Subasta />} />
 
             <Route path={"/simular"} element={<SimulateStock />} />
 
