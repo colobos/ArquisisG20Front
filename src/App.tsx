@@ -18,6 +18,7 @@ import BuyAction from './components/BuyAction/BuyAction';
 import AccionesDisponibles from './components/AccionesDisponibles/AccionesDisponibles';
 import Subasta from './components/Subasta/Subasta';
 import BuyActionAdmin from './components/BuyActionAdmin/BuyActionAdmin';
+import BuyActionNormalUserAsAdmin from './components/BuyActionNormalUserAsAdmin/BuyActionNormalUserAsAdmin';
 import BuyActionNormalUser from './components/BuyActionNormalUser/BuyActionNormalUser';
 import SimulateStock from './components/SimulateStock/SimulateStock';
 import ConfirmPurchase from './components/ConfirmPurchase/ConfirmPurchase';
@@ -73,6 +74,8 @@ function App() {
             <Route path={"/comprar"} element={<BuyAction />} />
 
             <Route path={"/comprar_admin"} element={<BuyActionAdmin />} />
+
+            <Route path={"/comprar_admin_user_normal"} element={<BuyActionNormalUserAsAdmin />} />
 
             <Route path={"/comprar_user_normal"} element={<BuyActionNormalUser />} />
 

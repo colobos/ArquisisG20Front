@@ -66,7 +66,9 @@ function PlayerProfile() {
       <div className="MainDivListFields">
         {fields_shown.map(r => (
           <div key={r.id} className="labelfield">
-            <p className="labelspecific">Empresa: {r.shortName}</p>
+          <p className="labelspecific">
+            {r.shortName ? `Empresa: ${r.shortName}` : 'Comprado a un Admin'}
+          </p>
             <p className="labelspecific">Simbolo: {r.symbol}</p>
             <p className="labelspecific">Cantidad Comprada: {r.amount}</p>
             <button className='botonsubmit' onClick={()=>generatePDF(r.user_id, r.symbol, r.shortName, r.amount, r.group_id, r.datetime, r.country, r.city)}>Descargar Boleta</button>

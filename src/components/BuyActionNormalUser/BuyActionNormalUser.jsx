@@ -14,8 +14,8 @@ function BuyActionNormalUser() {
     amount: ''
   })
   const location = useLocation();
-  const params_symbol = location.state.symbol;
-  const params_IdLastUpdateStock = location.state.IdLastUpdateStock; //Ajustar según ruta real
+  const params_symbol = location.state.name;
+  const params_amount = location.state.amount; //Ajustar según ruta real
   const params_shortName = location.state.shortName; //Ajustar según ruta real
   const [ipAddress, setIpAddress] = useState(null);
   const [dateTime, setDateTime] = useState(null);
@@ -58,7 +58,7 @@ function BuyActionNormalUser() {
       const body = {
         user_id: id,
         symbol: params_symbol,
-        group_id: params_IdLastUpdateStock, //Ajustar según ruta real
+        /*group_id: params_IdLastUpdateStock, //Ajustar según ruta real*/
         ...formData,
         shortname: params_shortName, //Ajustar según ruta real
         ip: ipAddress,
@@ -68,7 +68,7 @@ function BuyActionNormalUser() {
       };
       console.log(body)
 
-      const url = `${config.route}webpay/request` 
+      const url = `${config.route}webpay/request_noadmin` 
       console.log(url)
       const response = await axios.post(url, body, configaxios) //Ajustar según ruta real
       console.log(response.data, 'response.data')
@@ -91,6 +91,7 @@ function BuyActionNormalUser() {
           purchaseData: purchaseData
         },
       })
+
 
     } catch (error) {
       console.log(error, 'hay error');
@@ -141,7 +142,7 @@ function BuyActionNormalUser() {
   
       <div className="MainDivListFields">
         <form className="form" onSubmit={sentToApi}>
-          <p className="title">Stocks Disponible: {params_symbol}</p>
+          <p className="title">Stocks Disponible: {params_amount}</p>
 
           <p className="labelspecific">Asigna la cantidad a comprar</p>
           <input type="text" name="amount" placeholder="Ingresa un valor" value={formData.amount} onChange={handleChange}></input>

@@ -35,11 +35,11 @@ function Subasta() {
       console.log('Es admin!!')
     }
     else {
-        setIsAdmin(true);
+        setIsAdmin(false);
         console.log('No es admin!!');
     }
   };
-  /*checkAdmin();*/
+  checkAdmin();
 
   const handleChange = (event) => {
     const { name, value } = event.target;

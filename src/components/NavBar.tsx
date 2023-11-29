@@ -42,6 +42,10 @@ const NavBar = () => {
     }
   };
 
+  const sleep = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   useEffect(() => {
     const checkUserAdmin = async () => {
       if (isAuthenticated) {
@@ -54,7 +58,7 @@ const NavBar = () => {
     };
     checkUserAdmin(); 
 
-  }, [isOpen]); 
+  }); 
 
 
   const {
@@ -114,7 +118,7 @@ const NavBar = () => {
                 </NavItem>
               )}
 
-              {isAuthenticated && (
+              {isAuthenticated && isAdmin && (
                 <NavItem>
                   <NavLink
                     tag={RouterNavLink}
@@ -122,6 +126,18 @@ const NavBar = () => {
                     className="router-link-exact-active"
                   >
                     Comprar Acciones (Admin)
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && !isAdmin && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/comprar_admin_user_normal"
+                    className="router-link-exact-active"
+                  >
+                    Comprar Acciones (No Admin)
                   </NavLink>
                 </NavItem>
               )}
@@ -134,6 +150,18 @@ const NavBar = () => {
                     className="router-link-exact-active"
                   >
                     Acciones Compradas
+                  </NavLink>
+                </NavItem>
+              )}
+
+              {isAuthenticated && (
+                <NavItem>
+                  <NavLink
+                    tag={RouterNavLink}
+                    to="/predicciones_realizadas"
+                    className="router-link-exact-active"
+                  >
+                    Simulador de Predicciones 
                   </NavLink>
                 </NavItem>
               )}

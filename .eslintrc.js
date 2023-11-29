@@ -1,4 +1,4 @@
-module.exports = {
+/*module.exports = {
   'env': {
     'browser': true,
     'commonjs': true,
@@ -30,3 +30,4 @@ module.exports = {
     // Add more linter rules
   }
 }
+*/

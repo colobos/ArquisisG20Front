@@ -23,7 +23,7 @@ function BuyActionAdmin() {
         console.log('Es admin!!')
       }
       else {
-          setIsAdmin(false);
+          setIsAdmin(true);
           console.log('No es admin!!');
       }
     };
