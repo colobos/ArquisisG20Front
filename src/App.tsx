@@ -29,7 +29,10 @@ import { CookiesProvider, useCookies } from 'react-cookie';
 import './App.css';
 
 // fontawesome
-import initFontAwesome from "./utils/initFontAwesome";;
+import initFontAwesome from "./utils/initFontAwesome";
+import PetitionAction from './components/PetitionAction/PetitionAction';
+import MyPetitions from './components/MyPetitions/MyPetitions';
+;
 initFontAwesome();
 
 function App() {
@@ -54,6 +57,10 @@ function App() {
             <Route path="/perfil" element={<PlayerProfile />} />
 
             <Route path="/predicciones_realizadas" element={<PredictionPlayer />} />
+
+            <Route path="/peticiones" element={<PetitionAction />} />
+
+            <Route path="/peticiones_ofertas_mias" element={<MyPetitions />} />
 
             <Route path={'/empresas_disponibles'} element={<SearchStocks />} />
 
